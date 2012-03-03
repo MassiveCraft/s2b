@@ -15,6 +15,7 @@ Usage
 Special behavior and Suggested workflow
 ---------
 This script have some special behaviors:
+
  * Air blocks are not exported - Because in general you want the bo2 to to be transparent. Use the BBOB application to add in air blocks afterwards.
  * Magenta wool is not exported - Use magenta wool for cuboid min and max points. Since these will be in the WorldEdit selection it is handy if they are not exported.
  * Dark blue wool is not exported - We use this to stop wines from growing to long.

@@ -3,7 +3,7 @@
 #        This will convert all schematics in the sibling folder "in".
 #        The results will be placed in the folder "out".
 #        Air and magenta colored wool is ignored.
-#        If the file name is ending with _z4 the z will use a -4 offset
+#        If the file name is ending with R5 the z will use a -5 offset
 #
 # See: http://www.minecraftwiki.net/wiki/Schematic_File_Format
 #      https://github.com/Wickth/TerrainControll/blob/master/bo2spec.txt

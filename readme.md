@@ -16,12 +16,12 @@ Special behavior and Suggested workflow
 ---------
 This script have some special behaviors:
 
- * Air blocks are not exported - Because in general you want the bo2 to to be transparent. Use the BBOB application to add in air blocks afterwards.
- * Magenta wool is not exported - Use magenta wool for cuboid min and max points. Since these will be in the WorldEdit selection it is handy if they are not exported.
+ * Air blocks are not exported - Because in general you want the bo2 to to be transparent.<br>Use the BBOB application to add in air blocks afterwards.
+ * Magenta wool is not exported - Use magenta wool for cuboid min and max points.<br>Since these will be in the WorldEdit selection it is handy if they are not exported.
  * Dark blue wool is not exported - We use this to stop wines from growing to long.
- * If the name of the .schematic file ends with R5 (as in Root-depth 5) a z-offset of 5 will be used. The numer can ofcource be any number and is not limited to 5.
+ * If the name of the .schematic file ends with R5 (as in Root-depth 5) a z-offset of 5 will be used.<br>The numer can of cource be any number and is not limited to 5.
 
-This is how we do it on MassiveCraft:
+This is how we do it on [MassiveCraft](http://massivecraft.com/custom-terrain):<br>
 Create a creative world on your server using a multiworld plugin such as [MultiVerse-Core](http://dev.bukkit.org/server-mods/multiverse-core/). You may also want to keep separate inventories for that world using a plugin such as [MultiVerse-Inventories](http://dev.bukkit.org/server-mods/multiverse-inventories/). To make that world be a nice huge grass field you will want to use a custom world generator for it. We suggest<br> [CleanroomGenerator](http://dev.bukkit.org/server-mods/cleanroomgenerator/):1,bedrock,30,dirt,1,grass
 
 Now you can let people build custom trees there. The players place a sign with the name of the custom tree on top of the WorldEdit maxpoint. The name should end with something like R5 to make use of the z-offset feature.

@@ -16,7 +16,27 @@ require "nbtfile"
 # be in place -- otherwise they'll simply fall to the ground as entities. We
 # defer them to the end of the BOB output to ensure they're "built" last.
 NEEDY_BLOCKS = [6, 26, 27, 28, 31, 32, 37, 38, 39, 40, 50, 51, 55, 59, 63, 64, 65, 66, 68, 69, 70, 71, 72, 75, 76, 77, 78, 81, 83, 85, 90, 96, 104, 105, 106, 111, 115]
-FILE_HEADER = ["[META]","version=2.0","[DATA]"]
+FILE_HEADER = [
+"[META]",
+"version=2.0",
+"spawnOnBlockType=2",
+"spawnSunlight=True",
+"spawnDarkness=True",
+"spawnWater=False",
+"spawnLava=False",
+"underFill=False",
+"randomRotation=True",
+"dig=True",
+"tree=False",
+"branch=False",
+"needsFoundation=True",
+"rarity=100",
+"collisionPercentage=20",
+"spawnElevationMin=0",
+"spawnElevationMax=200",
+"spawnInBiome=Custom",
+"[DATA]"
+]
 
 # Folder names
 NAME_IN = "in"

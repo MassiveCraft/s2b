@@ -10,12 +10,22 @@
 #
 # Lisence: MIT
 
-require "nbtfile"
+require 'rbconfig'
+
+# Detect whether script is running on a Mac, change 'require' accordingly.
+hostOs = RbConfig::CONFIG['host_os']
+if /darwin|mac/.match(hostOs)
+    if ! require "/Library/Ruby/Gems/1.8/gems/nbtfile-0.2.0/lib/nbtfile.rb"
+        require "nbtfile"
+    end
+else
+    require "nbtfile"
+end
 
 # Needy blocks are items like torches and doors, which require other blocks to
 # be in place -- otherwise they'll simply fall to the ground as entities. We
 # defer them to the end of the BOB output to ensure they're "built" last.
-NEEDY_BLOCKS = [6, 26, 27, 28, 31, 32, 37, 38, 39, 40, 50, 51, 55, 59, 63, 64, 65, 66, 68, 69, 70, 71, 72, 75, 76, 77, 78, 81, 83, 85, 90, 96, 104, 105, 106, 111, 115]
+NEEDY_BLOCKS = [6, 26, 27, 28, 31, 32, 37, 38, 39, 40, 50, 51, 55, 59, 63, 64, 65, 66, 68, 69, 70, 71, 72, 75, 76, 77, 78, 81, 83, 85, 90, 96, 104, 105, 106, 111, 115, 127]
 FILE_HEADER = [
 "[META]",
 "version=2.0",
@@ -97,7 +107,12 @@ def schematicToBO2(schematic, zoffset)
 	data = data.each_slice(schematic["Length"]).to_a
 	layers = blocks.zip(data).map { |blocks, data| blocks.zip(data).map { |blocks, data| blocks.zip(data) } }
 	deferred = []
-
+    
+    # Utility function that converts lines into strings.
+    def stringifyLine(lineArray)
+        return stringified = "#{lineArray[0]},#{lineArray[1]},#{lineArray[2]}:#{lineArray[3]}.#{lineArray[4]}"
+    end
+    
 	ret.push(*FILE_HEADER)
 	layers.each_with_index do |rows, z|
 		z += zoffset
@@ -108,11 +123,11 @@ def schematicToBO2(schematic, zoffset)
 					next
 				end
 				y -= schematic["Length"] / 2 # Center the object on the Y axis
-				line = "#{y},#{x},#{z}:#{block}.#{data}"
+                line = [y, x, z, block, data]
 				if NEEDY_BLOCKS.include?(block)
 					deferred << line
 				else
-					ret << line
+                    ret << stringifyLine(line)
 				end
 			end
 		end
@@ -120,9 +135,13 @@ def schematicToBO2(schematic, zoffset)
 	
 	# Write needy blocks to the end of the BOB file, respecting the order of
 	# NEEDY_BLOCKS, in case some blocks are needier than others.
-	deferred.sort! { |a, b| NEEDY_BLOCKS.index(a) <=> NEEDY_BLOCKS.index(b) }
-	deferred.reverse.each { |line| ret << line }
-
+    deferred.sort! { |a, b| NEEDY_BLOCKS.index(a[3]) <=> NEEDY_BLOCKS.index(b[3]) }
+    deferredStringified = []
+    deferred.each do |lineToStringify|
+        deferredStringified << stringifyLine(lineToStringify)
+    end
+    deferredStringified.reverse.each { |line| ret << line }
+        
 	return ret
 end
 
@@ -131,4 +150,4 @@ print "== START ==\n"
 @filenames.each do |filename|
 	handleFileName(filename)
 end
-print "== DONE =="
+print "== DONE ==\n"

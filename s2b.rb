@@ -104,7 +104,7 @@ def schematicToBO2(schematic, zoffset)
 		rows.each_with_index do |columns, x|
 			x -= schematic["Width"] / 2 # Center the object on the X axis
 			columns.each_with_index do |(block, data), y|
-				if block == 0 || (block == 35 && (data == 2 || data == 11)) then # We ignore air and magentawool
+				if block == 0 || 63 || (block == 35 && (data == 2 || data == 11)) then # We ignore air, standing sign, magentawool and (dark) blue wool
 					next
 				end
 				y -= schematic["Length"] / 2 # Center the object on the Y axis

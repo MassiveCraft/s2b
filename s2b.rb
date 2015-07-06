@@ -2,8 +2,9 @@
 # Usage: ruby s2b.rb
 #		This will convert all schematics in the sibling folder "in".
 #		The results will be placed in the folder "out".
-#		Air and magenta colored wool is ignored.
-#		If the file name is ending with R5 the z will use a -5 offset
+#		We ignore air, standing sign, magentawool and (dark) blue wool.
+#		We convert orange wool to air.
+#		If the file name is ending with R5 the z will use a -5 offset.
 #
 # See: http://www.minecraftwiki.net/wiki/Schematic_File_Format
 #	  https://github.com/Wickth/TerrainControll/blob/master/bo2spec.txt
@@ -117,12 +118,20 @@ def schematicToBO2(schematic, zoffset)
 	layers.each_with_index do |rows, z|
 		z += zoffset
 		rows.each_with_index do |columns, x|
-			x -= schematic["Width"] / 2 # Center the object on the X axis
+			# Center the object on the X axis
+			x -= schematic["Width"] / 2
 			columns.each_with_index do |(block, data), y|
-				if block == 0 || block == 63 || (block == 35 && (data == 2 || data == 11)) then # We ignore air, standing sign, magentawool and (dark) blue wool
+				# We ignore air, standing sign, magentawool and (dark) blue wool.
+				if block == 0 || block == 63 || (block == 35 && (data == 2 || data == 11)) then
 					next
 				end
-				y -= schematic["Length"] / 2 # Center the object on the Y axis
+				# We convert orange wool to air.
+				if block == 35 && data == 1 then
+					block = 0
+					data = 0
+				end
+				# Center the object on the Y axis
+				y -= schematic["Length"] / 2
 				line = [y, x, z, block, data]
 				if NEEDY_BLOCKS.include?(block)
 					deferred << line
